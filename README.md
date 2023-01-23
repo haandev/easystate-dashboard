@@ -1,4 +1,4 @@
-# Frontend base of DOJO and related products
+# Frontend base of Easytate and related products
 
 to see at your env, please use : 
 ``` 

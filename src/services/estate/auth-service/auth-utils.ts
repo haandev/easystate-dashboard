@@ -14,10 +14,11 @@ const testCrossOriginCookiesAllowed = () => {
   })
   const r = Cookies.get("x-test-cookie") === randomString
   Cookies.remove("x-test-cookie")
-  r ? console.info("Cross origin cookies have ben set successfully"):
-    console.warn(
-      "Unable to set cross origin cookie. Please use SSL to get more security. Tokens will be sent in headers."
-    ) 
+  r
+    ? console.info("Cross origin cookies have ben set successfully")
+    : console.warn(
+        "Unable to set cross origin cookie. Please use SSL to get more security. Tokens will be sent in headers."
+      )
   return r
 }
 
@@ -30,8 +31,7 @@ export const getLocalToken = (name: TokenName) => Cookies.get(name) || ""
 export const setLocalToken = (name: TokenName, value: string = "") => {
   if (!value) return Cookies.remove(name)
   if (noCrossOriginCookies) {
-    Cookies.set(name, value, {
-      })
+    Cookies.set(name, value, {})
   } else {
     Cookies.set(name, value, {
       sameSite: "none",
@@ -104,11 +104,10 @@ export const decode = (token: string = "") => {
   }
   return null
 }
-export let decodedRefreshToken = ()=>decode(getLocalToken("refreshToken"))
 
-export let decodedAccessToken = ()=>decode(getLocalToken("accessToken"))
+export let decodedAccessToken = () => decode(getLocalToken("accessToken"))
 
-if (decodedRefreshToken() && !decodedAccessToken()) {
+if (getLocalToken("refreshToken") && !decodedAccessToken()) {
   refreshToken()
     .then(({ data }) => {
       setLocalToken("accessToken")
@@ -119,7 +118,7 @@ if (decodedRefreshToken() && !decodedAccessToken()) {
       window.location.reload()
     })
 }
-if (!decodedRefreshToken) {
+if (!getLocalToken("refreshToken")) {
   setLocalToken("accessToken")
   setLocalToken("refreshToken")
 }

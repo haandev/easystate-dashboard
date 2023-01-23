@@ -14,6 +14,7 @@ import Login from "./pages/auth/login/Login"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { PromptProvider } from "./contexts/prompt-context"
 import { FlagcardProvider } from "./contexts/flagcard-context"
+import Company from "./pages/app/Company/Company"
 const queryClient = new QueryClient()
 const base = import.meta.env.BASE_URL
 
@@ -37,6 +38,7 @@ const Router = () => {
           <Route path="/app">
             {/** viewer routes */}
             <Route path="home" element={<Home />} />
+            <Route path="company" element={<Company />} />
           </Route>
           <Route path="*" element={<Navigate to="/app/home" />} />
         </Routes>

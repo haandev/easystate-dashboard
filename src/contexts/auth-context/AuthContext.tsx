@@ -2,13 +2,12 @@ import React, { createContext, FC, PropsWithChildren, useReducer } from "react"
 import {
   decode,
   decodedAccessToken,
-  decodedRefreshToken,
   getLocalToken,
 } from "@/services/estate/auth-service/auth-utils"
 
 const initialAccessToken = getLocalToken("accessToken")
 const initialRefreshToken = getLocalToken("refreshToken")
-const initialState: AuthTypes.StateType = decode(initialRefreshToken)
+const initialState: AuthTypes.StateType = decode(initialAccessToken)
   ? {
       isLoggedIn: Boolean(initialAccessToken),
       accessToken: initialAccessToken,

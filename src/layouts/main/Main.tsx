@@ -26,6 +26,7 @@ import {
   UserGroupOutline,
   GiftOutline,
   XMarkOutline,
+  BuildingOfficeOutline,
   BriefcaseOutline,
 } from "@graywolfai/react-heroicons"
 import { MagnifyingGlassCircleOutline } from "@graywolfai/react-heroicons"
@@ -33,8 +34,8 @@ import classNames from "classnames"
 import { Link } from "react-router-dom"
 import logo from "@/assets/images/logo.png"
 const sidebarNavigation = [
-  { name: "Home", to: "/app/home/root", icon: HomeOutline, current: true },
-  { name: "Story Builder", href: "#", icon: GiftOutline, current: false },
+  { name: "Home", to: "/app/home", icon: HomeOutline, current: true },
+  { name: "Companies", to: "/app/company", icon: BuildingOfficeOutline, current: false },
   { name: "Library", href: "#", icon: PhotoOutline, current: false },
   { name: "Management", href: "#", icon: UserGroupOutline, current: false },
   { name: "Listeners", href: "#", icon: FaceFrownOutline, current: false },
