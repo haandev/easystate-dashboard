@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.viewer::after {
+  content: "";
+  flex-grow: 1000000000;
+}
+* {
+  font-size: 13px;
+  font-family: "Montserrat";
+}
+body {
+  --tw-bg-opacity: 1;
+  background-color: rgb(241 245 249 / var(--tw-bg-opacity));
+}
+
+.folder-icon {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-label {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 15px;
+}
+
+.item-last-update {
+  font-style: normal;
+  font-size: 12px;
+  line-height: 15px;
+}
+
+.item-subtext {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  line-height: 15px;
+}
+.main-content::-webkit-scrollbar{
+  width: 9px;
+  border-radius: 5px;
+}
+.main-content::-webkit-scrollbar-track{
+  background-color: white;
+  border-radius: 5px;
+}
+.main-content::-webkit-scrollbar-thumb {
+  background-color: rgba(67,56,202,0.4);
+  border-radius: 5px;
+}
