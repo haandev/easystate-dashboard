@@ -10,7 +10,7 @@ const PromptModal: PromptModalType = ({ children, ...props }) => {
     formType: "controlled",
     formId: "prompt-form",
     initialValues: Object.fromEntries(
-      Object.entries(props.fields).map(([key, value]) => [
+      Object.entries(props.fields||{}).map(([key, value]) => [
         key,
         (value.initialValue as string) || "",
       ])
@@ -19,8 +19,8 @@ const PromptModal: PromptModalType = ({ children, ...props }) => {
   const inputRef = useRef<HTMLInputElement & HTMLTextAreaElement>(null)
 
   useEffect(() => {
-    Object.entries(props.fields).forEach(([key, value]) => {
-      form.handleFieldChange("input", value.initialValue)
+    Object.entries(props.fields||{}).forEach(([key, value]) => {
+      form.handleFieldChange(key, value.initialValue)
     })
 
     setTimeout(() => {
@@ -43,7 +43,7 @@ const PromptModal: PromptModalType = ({ children, ...props }) => {
       onClose={handleCancel}
       title={props.title}
     >
-      {Object.entries(props.fields).map(([key, value], idx) => {
+      {Object.entries(props.fields||{}).map(([key, value], idx) => {
         const edt = value.editor !== "textarea"
         if (edt)
           return (

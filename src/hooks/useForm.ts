@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from "react"
+import React, { useCallback, useEffect, useRef, useState } from "react"
 import * as yup from "yup"
 
 export type UseFormPropsType<T> = {
@@ -12,7 +12,10 @@ export type ToStringAll<T> = Record<keyof T, string>
 export type UseFormReturnType<T> = {
   handleChange: (e: any) => void
   handleFieldChange: (name: keyof T, value?: string) => void
-  handleSubmit: (onSubmit: (values: T) => Promise<any>) => () => Promise<any>
+  handlePatch: (obj: Record<string, any>) => void
+  handleSubmit: (
+    onSubmit: (values: T) => Promise<any> | void
+  ) => () => Promise<any>
   values: Partial<T>
   errors: Partial<ToStringAll<T>>
   handleReset: () => void
@@ -51,7 +54,9 @@ const useForm = <T>({
     },
     []
   )
-
+  useEffect(() => {
+    setValuesRoot(initialValues)
+  }, [])
   const handleChange = useCallback((e: any) => {
     const value = e.target.value,
       name = e.target.name
@@ -72,6 +77,12 @@ const useForm = <T>({
       }
       fieldValidate(name, value, "change")
     }
+  }, [])
+
+  const handlePatch = useCallback((obj: Record<string, any>) => {
+    Object.entries(obj).forEach(([key, value]) => {
+      return handleFieldChange(key as keyof T, value as any)
+    })
   }, [])
 
   const fieldValidate = useCallback(
@@ -100,8 +111,9 @@ const useForm = <T>({
     setValues(initialValues)
     setErrors({})
   }, [])
-  const handleSubmit = useCallback(
-    (onSubmit: (values: T) => void) => {
+
+  const handleSubmit: UseFormReturnType<T>["handleSubmit"] = useCallback(
+    (onSubmit) => {
       return () => {
         let val: any = {}
         if (formType === "controlled") {
@@ -181,6 +193,7 @@ const useForm = <T>({
     errors,
     handleReset,
     props,
+    handlePatch,
   }
 }
 

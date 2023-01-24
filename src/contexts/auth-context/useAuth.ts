@@ -1,6 +1,6 @@
 import { useContext, useMemo } from "react"
 import useEvent from "react-use-event-hook"
-import { authService } from "@/services/estate/auth-service"
+import { auth } from "@/services/estate"
 import { setLocalToken } from "@/services/estate/auth-service/auth-utils"
 import { AuthContext } from "./AuthContext"
 
@@ -11,12 +11,12 @@ export const useAuth = () => {
   }
 
   const login = useEvent((payload: LoginPayload) => {
-    return authService
+    return auth
       .login(payload)
       .then(({ data }) => {
         if (data) {
-          setLocalToken("accessToken",data.accessToken)
-          setLocalToken("refreshToken",data.refreshToken)
+          setLocalToken("accessToken", data.accessToken)
+          setLocalToken("refreshToken", data.refreshToken)
           contextValue.dispatch({
             type: "login",
             data: {
@@ -28,8 +28,8 @@ export const useAuth = () => {
         }
       })
       .catch(() => {
-        setLocalToken("accessToken","")
-        setLocalToken("refreshToken","")
+        setLocalToken("accessToken", "")
+        setLocalToken("refreshToken", "")
         console.error(
           "Catched invalid login information or network non-stability"
         )
@@ -37,9 +37,9 @@ export const useAuth = () => {
   })
 
   const logout = useEvent(() => {
-    setLocalToken("accessToken","")
-    setLocalToken("refreshToken","")
-    return authService.logout()
+    setLocalToken("accessToken", "")
+    setLocalToken("refreshToken", "")
+    return auth.logout()
   })
 
   return useMemo(

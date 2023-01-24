@@ -33,9 +33,15 @@ import { MagnifyingGlassCircleOutline } from "@graywolfai/react-heroicons"
 import classNames from "classnames"
 import { Link } from "react-router-dom"
 import logo from "@/assets/images/logo.png"
+import Breadcrumb from "@/components/breadcrumb/Breadcrumb"
 const sidebarNavigation = [
   { name: "Home", to: "/app/home", icon: HomeOutline, current: true },
-  { name: "Companies", to: "/app/company", icon: BuildingOfficeOutline, current: false },
+  {
+    name: "Şirketler",
+    to: "/app/company",
+    icon: BuildingOfficeOutline,
+    current: false,
+  },
   { name: "Library", href: "#", icon: PhotoOutline, current: false },
   { name: "Management", href: "#", icon: UserGroupOutline, current: false },
   { name: "Listeners", href: "#", icon: FaceFrownOutline, current: false },
@@ -65,11 +71,7 @@ const Main: FC<PropsWithChildren<any>> = ({ children, ...props }) => {
         <div className="flex flex-col min-h-0 bg-indigo-700 p-4 w-56">
           <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
             <div className="flex items-center flex-shrink-0 px-4">
-              <img
-                className="h-16 w-auto"
-                src={logo}
-                alt="Workflow"
-              />
+              <img className="h-16 w-auto" src={logo} alt="Workflow" />
             </div>
             <nav className="mt-5 flex-1 px-2 space-y-1">
               {sidebarNavigation.map((item) => (
@@ -213,7 +215,7 @@ const Main: FC<PropsWithChildren<any>> = ({ children, ...props }) => {
           <div className="flex-1 flex items-stretch overflow-hidden">
             <div className="flex-1 flex flex-col overflow-hidden h-full max-h-full w-full max-w-full">
               <header className="w-full">
-                <div className="relative z-10 flex-shrink-0 h-16 bg-white border-b border-gray-200 shadow-sm flex">
+                <div className="relative  flex-shrink-0 h-16 bg-white border-b border-gray-200 shadow-sm flex">
                   <button
                     type="button"
                     className="border-r border-gray-200 px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
@@ -295,7 +297,10 @@ const Main: FC<PropsWithChildren<any>> = ({ children, ...props }) => {
                         type="button"
                         className="flex bg-indigo-600 p-1 rounded-full items-center justify-center text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                       >
-                        <PlusSmallOutline className="h-6 w-6" aria-hidden="true" />
+                        <PlusSmallOutline
+                          className="h-6 w-6"
+                          aria-hidden="true"
+                        />
                         <span className="sr-only">Add file</span>
                       </button>
                     </div>
@@ -303,10 +308,38 @@ const Main: FC<PropsWithChildren<any>> = ({ children, ...props }) => {
                 </div>
               </header>
               <div className="flex-1 overflow-hidden pr-4  pb-4 h-full max-h-full w-full max-w-full">
-                <main className={classNames("flex-1 overflow-y-auto  main-content max-h-full h-full",
-                !!props.noMargin || "pr-4 pt-4 pb-4 pl-8"
-                )}>
-                  {/* Primary column */}
+                <main
+                  className={classNames(
+                    "flex-1 overflow-y-auto  main-content max-h-full h-full",
+                    !!props.noMargin || "pr-16 pt-4 pb-4 pl-16"
+                  )}
+                >
+                  {props.breadcrumb && <Breadcrumb pages={props.breadcrumb} />}
+                  <div className="mb-8 flex w-full flex-row justify-between">
+                    <div className="flex-1">
+                      {props.title && (
+                        <h1 className="text-2xl font-bold">{props.title}</h1>
+                      )}
+                      {props.description && <h2>{props.description}</h2>}
+                    </div>
+                    <div>
+                      {props.actions &&
+                        props.actions.map((action: any,idx:number) => {
+                          const Icon = action.icon
+                          return (
+                            <button
+                            key={idx}
+                              onClick={action.onClick}
+                              type="button"
+                              className=" flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            >
+                              {action.icon && <Icon className="w-5 h-5 mr-2" />}
+                              {action.title}
+                            </button>
+                          )
+                        })}
+                    </div>
+                  </div>
                   {children}
                 </main>
               </div>

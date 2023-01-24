@@ -6,7 +6,10 @@ import react from "@vitejs/plugin-react"
 export default defineConfig({
   plugins: [react()],
   resolve: {
-    alias: [{ find: "@", replacement: path.resolve(__dirname, "src") }],
+    alias: [
+      { find: "@", replacement: path.resolve(__dirname, "src") },
+      { find: "url", replacement: "browserify-url" },
+    ],
   },
   optimizeDeps: {
     exclude: ["dayjs/locale/gom-latn"],

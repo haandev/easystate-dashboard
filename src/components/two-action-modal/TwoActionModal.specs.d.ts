@@ -10,7 +10,9 @@ type TwoActionModalProps<Event = any> = {
   onCancel?: (e?: Event) => void
   okTitle?: string
   cancelTitle?: string
-  title?: string
+  title?: string,
+  icon?:any,
+  color:string
 }
 
 type TwoActionModalType<Omits = "", Extends = {}, Event=any> = FC<

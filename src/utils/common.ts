@@ -27,3 +27,9 @@ export const mapFormDataRequest = (data: any): FormData => {
     return formData
   }
 }
+
+export const stringMap = (params: any) =>
+  Object.entries(params).reduce((prev, [key, value]) => {
+    prev[key] = String(value)
+    return prev
+  }, {} as any)

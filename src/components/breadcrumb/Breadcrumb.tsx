@@ -8,11 +8,10 @@ const Breadcrumb = ({
   pages: {
     name: string
     href?: string
-    current?: boolean
   }[]
 }) => {
   return (
-    <nav className="flex p-2 mb-4" aria-label="Breadcrumb">
+    <nav className="flex pl-0 mt-5 mb-8" aria-label="Breadcrumb">
       <ol role="list" className="flex items-center space-x-4">
         <li>
           <div>
@@ -22,7 +21,7 @@ const Breadcrumb = ({
             </Link>
           </div>
         </li>
-        {pages.map((page) => (
+        {pages.map((page,index) => (
           <li key={page.name}>
             <div className="flex items-center">
               <ChevronRightSolid
@@ -33,14 +32,14 @@ const Breadcrumb = ({
                 <Link
                   to={page.href}
                   className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
-                  aria-current={page.current ? "page" : undefined}
+                  aria-current={index===pages.length-1 ? "page" : undefined}
                 >
                   {page.name}
                 </Link>
               ) : (
                 <a
                   className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700"
-                  aria-current={page.current ? "page" : undefined}
+                  aria-current={index===pages.length-1 ? "page" : undefined}
                 >
                   {page.name}
                 </a>

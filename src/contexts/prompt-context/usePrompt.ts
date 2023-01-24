@@ -18,7 +18,7 @@ export const usePrompt = () => {
 
   const asyncAppear = useEvent(
     (props: PromptModalProps) =>
-      new Promise<PromptModalEvent | null>((resolve, _reject) => {
+      new Promise<PromptModalEvent | null>((resolve, reject) => {
         contextValue.dispatch({
           type: "appear",
           props: {
@@ -32,7 +32,7 @@ export const usePrompt = () => {
             },
             onCancel: () => {
               props.onCancel?.()
-              resolve(null)
+              reject(null)
               contextValue.dispatch({ type: "dismiss", id: props.id })
             },
           },

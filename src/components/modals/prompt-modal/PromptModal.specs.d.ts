@@ -12,7 +12,7 @@ export type PromptModalEvent = {
 
 export type PromptModalProps = PropsWithChildren<
   TwoActionModalProps<PromptModalEvent> & {
-    fields: Record<
+    fields?: Record<
       string,
       {
         placeholder?: string
