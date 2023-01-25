@@ -28,6 +28,7 @@ import {
   XMarkOutline,
   BuildingOfficeOutline,
   BriefcaseOutline,
+  UserGroupSolid,
 } from "@graywolfai/react-heroicons"
 import { MagnifyingGlassCircleOutline } from "@graywolfai/react-heroicons"
 import classNames from "classnames"
@@ -40,6 +41,12 @@ const sidebarNavigation = [
     name: "Şirketler",
     to: "/app/company",
     icon: BuildingOfficeOutline,
+    current: false,
+  },
+  {
+    name: "Temsilciler",
+    to: "/app/agent",
+    icon: UserGroupSolid,
     current: false,
   },
   { name: "Library", href: "#", icon: PhotoOutline, current: false },

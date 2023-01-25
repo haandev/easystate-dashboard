@@ -34,7 +34,7 @@ const UpsertCompanyDrawer: FC<any> = ({
       .then(() => {
         form.handleReset()
         onClose?.()
-        onSaveSuccess?.()
+        onSaveSuccess && onSaveSuccess?.()
       })
   })
   return (

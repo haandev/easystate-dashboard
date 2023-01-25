@@ -15,6 +15,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { PromptProvider } from "./contexts/prompt-context"
 import { FlagcardProvider } from "./contexts/flagcard-context"
 import Company from "./pages/app/Company/Company"
+import Agent from "./pages/app/Agent/Agent"
 const queryClient = new QueryClient()
 const base = import.meta.env.BASE_URL
 
@@ -39,6 +40,7 @@ const Router = () => {
             {/** viewer routes */}
             <Route path="home" element={<Home />} />
             <Route path="company" element={<Company />} />
+            <Route path="agent" element={<Agent />} />
           </Route>
           <Route path="*" element={<Navigate to="/app/home" />} />
         </Routes>

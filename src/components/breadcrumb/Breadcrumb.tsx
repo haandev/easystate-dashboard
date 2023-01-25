@@ -15,7 +15,7 @@ const Breadcrumb = ({
       <ol role="list" className="flex items-center space-x-4">
         <li>
           <div>
-            <Link to="/app/home/root" className="text-gray-400 hover:text-gray-500">
+            <Link to="/app/home" className="text-gray-400 hover:text-gray-500">
               <HomeSolid className="flex-shrink-0 h-5 w-5" aria-hidden="true" />
               <span className="sr-only">Home</span>
             </Link>

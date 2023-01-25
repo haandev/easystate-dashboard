@@ -10,7 +10,7 @@ export type UseFormPropsType<T> = {
 
 export type ToStringAll<T> = Record<keyof T, string>
 export type UseFormReturnType<T> = {
-  handleChange: (e: any) => void
+  handleChange: (e: any, formatter: any) => void
   handleFieldChange: (name: keyof T, value?: string) => void
   handlePatch: (obj: Record<string, any>) => void
   handleSubmit: (
@@ -22,6 +22,7 @@ export type UseFormReturnType<T> = {
   props: (
     name: keyof T,
     config: {
+      formatter?: (value: any) => any
       schema: yup.AnySchema
       validateOn?: { blur?: boolean; change?: boolean; submit?: boolean }
       onChange?: (e: any) => void
@@ -57,9 +58,9 @@ const useForm = <T>({
   useEffect(() => {
     setValuesRoot(initialValues)
   }, [])
-  const handleChange = useCallback((e: any) => {
-    const value = e.target.value,
-      name = e.target.name
+  const handleChange = useCallback((e: any, formatter: any) => {
+    const value = formatter ? formatter(e.target.value) : e.target.value
+    const name = e.target.name
     setValues((prev) => ({ ...prev, [name]: value }))
     fieldValidate(name, value, "change")
   }, [])
@@ -152,6 +153,7 @@ const useForm = <T>({
     (
       name: keyof T,
       config: {
+        formatter?: (value: any) => any
         schema: yup.AnySchema
         validateOn?: { blur?: boolean; change?: boolean; submit?: boolean }
         onChange?: (e: any) => void
@@ -173,10 +175,16 @@ const useForm = <T>({
           ? { defaultValue: initialValues[name] }
           : {}),
         onChange: (e: any) => {
+          e.target.value = config.formatter
+            ? config.formatter?.(e.target.value)
+            : e.target.value
           config?.onChange?.(e)
-          handleChange(e)
+          handleChange(e, config.formatter)
         },
         onBlur: (e: any) => {
+          e.target.value = config.formatter
+            ? config.formatter?.(e.target.value)
+            : e.target.value
           config?.onBlur?.(e)
           handleBlur(e)
         },

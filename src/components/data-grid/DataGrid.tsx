@@ -49,21 +49,31 @@ const DataGrid: FC<DataGridProps> = (props) => {
               <tbody className="bg-white divide-y divide-gray-200">
                 {props.rows.map((row, index) => (
                   <tr key={row[props.keyField]}>
-                    {props.columns.map((col, i) => (
-                      <td
-                        key={row[props.keyField] + "_" + col.label + "_" + i}
-                        className={`${
-                          col.dataStyles
-                        } px-6 py-4 whitespace-nowrap  font-medium text-gray-900
+                    {props.columns.map((col, i) => {
+                      let val = col.field && row[col.field]
+                      if (col.field?.includes(".")) {
+                        const path = col.field.split(".")
+                        val = row
+                        val = path.reduce((prev, current) => {
+                          return prev[current]
+                        }, val)
+                      }
+                      return (
+                        <td
+                          key={row[props.keyField] + "_" + col.label + "_" + i}
+                          className={`${
+                            col.dataStyles
+                          } px-6 py-4 whitespace-nowrap  font-medium text-gray-900
                         text-${col.align || "left"} `}
-                      >
-                        {col.field && !col.formatter && row[col.field]}
-                        {col.field &&
-                          col.formatter &&
-                          col.formatter(row[col.field])}
-                        {!col.field && col.render && col.render(row, index)}
-                      </td>
-                    ))}
+                        >
+                          {col.field && !col.formatter && val}
+                          {col.field &&
+                            col.formatter &&
+                            col.formatter(row[col.field])}
+                          {!col.field && col.render && col.render(row, index)}
+                        </td>
+                      )
+                    })}
                   </tr>
                 ))}
               </tbody>
