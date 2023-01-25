@@ -11,7 +11,7 @@ export type UseFormPropsType<T> = {
 export type ToStringAll<T> = Record<keyof T, string>
 export type UseFormReturnType<T> = {
   handleChange: (e: any, formatter: any) => void
-  handleFieldChange: (name: keyof T, value?: string) => void
+  handleFieldChange: (name: keyof T, value?: any) => void
   handlePatch: (obj: Record<string, any>) => void
   handleSubmit: (
     onSubmit: (values: T) => Promise<any> | void
@@ -46,6 +46,7 @@ const useForm = <T>({
 }: UseFormPropsType<T>): UseFormReturnType<T> => {
   const [values, setValuesRoot] = useState<T>(initialValues)
   const [errors, setErrors] = useState<Partial<ToStringAll<T>>>({})
+  const errorObject = useRef<any>({})
   const schemaObj = useRef<any>({})
   const validateOnObj = useRef<any>({})
 
@@ -92,9 +93,11 @@ const useForm = <T>({
         const prm = schemaObj.current[name]?.validate?.(value)
         prm
           ?.then(() => {
+            delete errorObject.current[name]
             setErrors((prev: any) => ({ ...prev, [name]: "" }))
           })
           ?.catch((err: yup.ValidationError) => {
+            errorObject.current[name] = err.message
             setErrors((prev: any) => ({ ...prev, [name]: err.message }))
           })
         return prm
@@ -140,7 +143,10 @@ const useForm = <T>({
             (prm) => prm?.status === "rejected"
           )
           if (rejected.length) {
-            onError?.(rejected)
+            return new Promise((_resolve, reject) => {
+              reject(errorObject.current)
+              onError?.(errorObject.current)
+            })
           } else {
             return onSubmit(val)
           }
@@ -168,6 +174,7 @@ const useForm = <T>({
       }
       return {
         name,
+        error: errors[name],
         id: `${formId ? formId + "." : ""}${String(name)}`,
         ...(formType === "controlled"
           ? { value: (values as any)[name] }
